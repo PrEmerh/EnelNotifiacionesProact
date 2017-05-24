@@ -1,4 +1,6 @@
 'use strict';
+//var $ = require('jquery'); 
+
 var https = require( 'https' );
 var activityUtils = require('./activityUtils');
 var httpExecute = process.env.REST_EXECUTE && process.env.REST_EXECUTE.length > 0? process.env.REST_EXECUTE : "https://" + process.env.JB_ACTIVITY_KEY + ".herokuapp.com/rest-activity/execute";
@@ -98,8 +100,8 @@ exports.save = function( req, res ) {
 };
 
 /**
- * POST Handler for /publish/ route of Activity.
- */
+ * POST Handler for /publish/ route of Activity.*/
+
 exports.publish = function( req, res ) {
 	console.log('>>> PUBLISH <<<');
 	console.log(req.body);
@@ -108,6 +110,30 @@ exports.publish = function( req, res ) {
     //activityUtils.logData( req.body );
     res.send( 200, 'Publish' );
 };
+
+
+/* POST Handler for /publish/ route of Activity.
+
+exports.publish = function( req, res ) {
+         console.log('>>> PUBLISH <<<');
+         console.log(req.body);
+         console.log("Task: " + req.body.Task);
+    	 $.ajax({
+             type: "POST",
+             url: 'https://enelnotificacionesproactjava.herokuapp.com/rest-activity/publish',
+             data: req.body.Task,
+             contentType: "application/json; charset=utf-8",
+             dataType: "json",
+             success: function (data) {
+                      debugger;
+                      console.log('>>> Llamada a aplicación de java correcta <<<')
+             },
+             error: function (msg, url, line) {
+                      console.log('error trapped in error: function(msg, url, line)');
+                      console.log('msg = ' + msg + ', url = ' + url + ', line = ' + line);
+             }
+    	 });    
+}*/
 
 /**
  * POST Handler for /validate/ route of Activity.
