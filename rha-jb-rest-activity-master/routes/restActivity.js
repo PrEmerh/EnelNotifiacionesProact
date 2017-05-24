@@ -5,58 +5,50 @@ var httpExecute = process.env.REST_EXECUTE && process.env.REST_EXECUTE.length > 
 var httpSave = process.env.REST_SAVE && process.env.REST_SAVE.length > 0? process.env.REST_SAVE : "https://" + process.env.JB_ACTIVITY_KEY + ".herokuapp.com/rest-activity/save";
 var httpPublish = process.env.REST_PUBLISH && process.env.REST_PUBLISH.length > 0? process.env.REST_PUBLISH : "https://" + process.env.JB_ACTIVITY_KEY + ".herokuapp.com/rest-activity/publish";
 var httpValidate = process.env.REST_VALIDATE && process.env.REST_VALIDATE.length > 0? process.env.REST_VALIDATE : "https://" + process.env.JB_ACTIVITY_KEY + ".herokuapp.com/rest-activity/validate";
-var configJSON = {	
+var configJSON = {			
 		    "name": "CA-Some SMS",
 		    "arguments": {
-		        "executionMode": "{{Context.ExecutionMode}}",
-		        "definitionInstanceId": "{{Context.DefinitionInstanceId}}",
-		        "definitionId": "{{Context.DefinitionId}}",
-		        "activityId": "{{Activity.Id}}",
-		        "contactKey": "{{Contact.Key}}",
 		        "execute": {
 		            "inArguments": [
 		                {
 		                    "actualChoice": "{{Interaction.MULTICRITERIADECISION-1.actualChoice}}"
 		                },
 		                {
-		                    "Task:WhoId": "{{Event.SalesforceObjd2012c3f3b07bbc1ce97df1f668355b2.Task:WhoId}}"
+		                    "endDate": "{{Interaction.WAIT-1.endDate}}"
+		                },
+		               {
+		                    "Task:WhoId": "{{Event.SalesforceObj4d3914eab7474d5305058e0c180fdde9.Task:WhoId}}"
 		                },
 		                {
-		                    "Task:Tipo_de_Tarea__c": "{{Event.SalesforceObjd2012c3f3b07bbc1ce97df1f668355b2.Task:Tipo_de_Tarea__c}}"
+		                    "Task:TaskType__c": "{{Event.SalesforceObj4d3914eab7474d5305058e0c180fdde9.Task:TaskType__c}}"
 		                },
 		                {
-		                    "Task:RecordTypeId": "{{Event.SalesforceObjd2012c3f3b07bbc1ce97df1f668355b2.Task:RecordTypeId}}"
+		                    "Task:SolutionDate__c": "{{Event.SalesforceObj4d3914eab7474d5305058e0c180fdde9.Task:SolutionDate__c}}"
 		                },
 		                {
-		                    "Task:AccountId": "{{Event.SalesforceObjd2012c3f3b07bbc1ce97df1f668355b2.Task:AccountId}}"
+		                    "Task:ExternalID__c": "{{Event.SalesforceObj4d3914eab7474d5305058e0c180fdde9.Task:ExternalID__c}}"
 		                },
 		                {
-		                    "Task:OwnerId": "{{Event.SalesforceObjd2012c3f3b07bbc1ce97df1f668355b2.Task:OwnerId}}"
+		                    "Task:Who:Contact:Phone": "{{Event.SalesforceObj4d3914eab7474d5305058e0c180fdde9.Task:Who:Contact:Phone}}"
 		                },
 		                {
-		                    "Task:EndDate__c": "{{Event.SalesforceObjd2012c3f3b07bbc1ce97df1f668355b2.Task:EndDate__c}}"
+		                    "Task:Who:Contact:MobilePhone": "{{Event.SalesforceObj4d3914eab7474d5305058e0c180fdde9.Task:Who:Contact:MobilePhone}}"
 		                },
 		                {
-		                    "Task:Who:Contact:MobilePhone": "{{Event.SalesforceObjd2012c3f3b07bbc1ce97df1f668355b2.Task:Who:Contact:MobilePhone}}"
+		                    "Task:Who:Contact:SecondaryPhone__c": "{{Event.SalesforceObj4d3914eab7474d5305058e0c180fdde9.Task:Who:Contact:SecondaryPhone__c}}"
 		                },
 		                {
-		                    "Task:Who:Contact:Country__c": "{{Event.SalesforceObjd2012c3f3b07bbc1ce97df1f668355b2.Task:Who:Contact:Country__c}}"
+		                    "Task:PointOfDelivery__r:Country__c": "{{Event.SalesforceObj4d3914eab7474d5305058e0c180fdde9.Task:PointOfDelivery__r:Country__c}}"
 		                },
 		                {
-		                    "Task:Who:Contact:ExternalId__c": "{{Event.SalesforceObjd2012c3f3b07bbc1ce97df1f668355b2.Task:Who:Contact:ExternalId__c}}"
+		                    "Task:PointOfDelivery__c": "{{Event.SalesforceObj4d3914eab7474d5305058e0c180fdde9.Task:PointOfDelivery__c}}"
 		                },
 		                {
-		                    "Task:What:PointofDelivery__c:Name": "{{Event.SalesforceObjd2012c3f3b07bbc1ce97df1f668355b2.Task:What:PointofDelivery__c:Name}}"
+		                    "Task:Who:Contact:Email": "{{Event.SalesforceObj4d3914eab7474d5305058e0c180fdde9.Task:Who:Contact:Email}}"
 		                },
 		                {
-		                    "Task:Who:Contact:Email": "{{Event.SalesforceObjd2012c3f3b07bbc1ce97df1f668355b2.Task:Who:Contact:Email}}"
-		                },
-		                {
-		                    "Task:Who:Contact:HasOptedOutOfEmail": "{{Event.SalesforceObjd2012c3f3b07bbc1ce97df1f668355b2.Task:Who:Contact:HasOptedOutOfEmail}}"
-		                },
-		                {
-		                    "Task:Id": "{{Event.SalesforceObjd2012c3f3b07bbc1ce97df1f668355b2.Task:Id}}"
-		                },
+		                    "Task:Id": "{{Event.SalesforceObj4d3914eab7474d5305058e0c180fdde9.Task:Id}}"
+		               },
 		                {
 		                    "message": "someMessage"
 		                }
@@ -68,35 +60,17 @@ var configJSON = {
 		            ],
 		            "url": "https://enelnotificacionesproact.herokuapp.com/rest-activity/execute",
 		            "useJWT": true
-		        },
-		        "testExecute": ""
+		        }
 		    },
 		    "configurationArguments": {
 		        "save": {
 		            "url": "https://enelnotificacionesproact.herokuapp.com/rest-activity/save"
 		        },
-		        "testSave": "",
 		        "publish": {
 		            "url": "https://enelnotificacionesproact.herokuapp.com/rest-activity/publish"
 		        },
-		        "testPublish": "",
-		        "unpublish": "",
-		        "stop": "",
-		        "testStop": "",
-		        "testUnpublish": "",
-		        "partnerActivityId": "",
 		        "validate": {
 		            "url": "https://enelnotificacionesproact.herokuapp.com/rest-activity/validate"
-		        },
-		        "testValidate": "",
-		        "outArgumentSchema": {
-		            "result": {
-		                "dataType": "Text",
-		                "isNullable": false,
-		                "direction": "Out",
-		                "readOnly": false,
-		                "access": "Visible"
-		            }
 		        }
 		    },
 		    "metaData": {
@@ -113,105 +87,126 @@ var configJSON = {
 		                        "actualChoice": {
 		                            "dataType": "Number",
 		                            "isNullable": false,
-		                            "direction": "in"
+		                            "direction": "In",
+		                            "readOnly": false,
+		                            "access": "Hidden"
 		                        }
 		                    },
 		                    {
-		                        "Task:WhoId": {
+		                        "endDate": {
+		                            "dataType": "Date",
+		                            "isNullable": false,
+		                            "direction": "In",
+		                            "readOnly": false,
+		                            "access": "Hidden"
+		                        }
+		                    },
+		                    {
+		                        "task:WhoId": {
 		                            "dataType": "Text",
 		                            "isNullable": true,
-		                            "direction": "in"
+		                            "direction": "In",
+		                            "readOnly": false,
+		                            "access": "Hidden"
 		                        }
 		                    },
 		                    {
-		                        "Task:Tipo_de_Tarea__c": {
+		                        "task:TaskType__c": {
 		                            "dataType": "Text",
 		                            "isNullable": true,
-		                            "direction": "in"
+		                            "direction": "In",
+		                            "readOnly": false,
+		                            "access": "Hidden"
 		                        }
 		                    },
 		                    {
-		                        "Task:RecordTypeId": {
-		                            "dataType": "Text",
-		                            "isNullable": true,
-		                            "direction": "in"
-		                        }
-		                    },
-		                    {
-		                        "Task:AccountId": {
-		                            "dataType": "Text",
-		                            "isNullable": true,
-		                            "direction": "in"
-		                        }
-		                    },
-		                    {
-		                        "Task:OwnerId": {
-		                            "dataType": "Text",
-		                            "isNullable": true,
-		                            "direction": "in"
-		                        }
-		                    },
-		                    {
-		                        "Task:EndDate__c": {
+		                        "task:SolutionDate__c": {
 		                            "dataType": "Date",
 		                            "isNullable": true,
-		                            "direction": "in"
+		                            "direction": "In",
+		                            "readOnly": false,
+		                            "access": "Hidden"
 		                        }
 		                    },
 		                    {
-		                        "Task:Who:Contact:MobilePhone": {
+		                        "task:ExternalID__c": {
+		                            "dataType": "Text",
+		                            "isNullable": true,
+		                            "direction": "In",
+		                            "readOnly": false,
+		                            "access": "Hidden"
+		                        }
+		                    },
+		                    {
+		                        "task:Who:Contact:Phone": {
 		                            "dataType": "Phone",
 		                            "isNullable": true,
-		                            "direction": "in"
+		                           "direction": "In",
+		                            "readOnly": false,
+		                            "access": "Hidden"
 		                        }
 		                    },
 		                    {
-		                        "Task:Who:Contact:Country__c": {
+		                        "task:Who:Contact:MobilePhone": {
+		                            "dataType": "Phone",
+		                            "isNullable": true,
+		                            "direction": "In",
+		                            "readOnly": false,
+		                            "access": "Hidden"
+		                        }
+		                    },
+		                    {
+		                        "task:Who:Contact:SecondaryPhone__c": {
+		                            "dataType": "Phone",
+		                            "isNullable": true,
+		                            "direction": "In",
+		                            "readOnly": false,
+		                            "access": "Hidden"
+		                        }
+		                    },
+		                    {
+		                        "task:PointOfDelivery__r:Country__c": {
 		                            "dataType": "Text",
 		                            "isNullable": true,
-		                            "direction": "in"
+		                            "direction": "In",
+		                            "readOnly": false,
+		                            "access": "Hidden"
 		                        }
 		                    },
 		                    {
-		                        "Task:Who:Contact:ExternalId__c": {
+		                        "task:PointOfDelivery__c": {
 		                            "dataType": "Text",
 		                            "isNullable": true,
-		                            "direction": "in"
+		                            "direction": "In",
+		                            "readOnly": false,
+		                            "access": "Hidden"
 		                        }
 		                    },
 		                    {
-		                        "Task:What:PointofDelivery__c:Name": {
-		                            "dataType": "Text",
-		                            "isNullable": true,
-		                            "direction": "in"
-		                        }
-		                    },
-		                    {
-		                        "Task:Who:Contact:Email": {
+		                        "task:Who:Contact:Email": {
 		                            "dataType": "Email",
 		                            "isNullable": true,
-		                            "direction": "in"
+		                            "direction": "In",
+		                            "readOnly": false,
+		                            "access": "Hidden"
 		                        }
 		                    },
 		                    {
-		                        "Task:Who:Contact:HasOptedOutOfEmail": {
-		                            "dataType": "Boolean",
-		                            "isNullable": true,
-		                            "direction": "in"
-		                        }
-		                    },
-		                    {
-		                        "Task:Id": {
+		                        "task:Id": {
 		                            "dataType": "Text",
 		                            "isNullable": true,
-		                            "direction": "in"
+		                            "direction": "In",
+		                            "readOnly": false,
+		                            "access": "Hidden"
 		                        }
 		                    },
 		                    {
 		                        "message": {
 		                            "dataType": "Text",
 		                            "isNullable": false,
-		                            "direction": "in"
+		                            "direction": "In",
+		                            "readOnly": false,
+		                            "access": "Hidden"
 		                        }
 		                    }
 		                ],
@@ -219,8 +214,10 @@ var configJSON = {
 		                    {
 		                        "result": {
 		                            "dataType": "Text",
-		                            "access": "visible",
-		                            "direction": "out"
+		                            "isNullable": false,
+		                            "direction": "Out",
+		                            "readOnly": false,
+		                            "access": "Visible"
 		                        }
 		                    }
 		                ]
@@ -229,13 +226,14 @@ var configJSON = {
 		    },
 		    "outcomes": [
 		        {
-		            "key": "725e981b-ff4d-4ca9-b692-ac04bb3954b4",
-		            "next": "WAIT-4",
+		            "key": "55c03ad7-8d56-4782-9664-37c817635011",
+		            "next": "WAIT-2",
 		            "arguments": {},
 		            "metaData": {}
 		        }
 		    ]
-		};
+		}
+
 
 /**
  * POST Handler for / route of Activity (this is the edit route).
@@ -262,16 +260,35 @@ exports.save = function( req, res ) {
 };
 
 /**
- * POST Handler for /publish/ route of Activity.
- */
+* POST Handler for /publish/ route of Activity.
+*/
 exports.publish = function( req, res ) {
-	console.log('>>> PUBLISH <<<');
-	console.log(req.body);
-	// Data from the req and put it in an array accessible to the main app.
+         console.log('>>> PUBLISH <<<');
+         console.log(req.body);
+         console.log("Task: " + req.body.Task);
+         $.ajax({
+                   type: "POST",
+                   url: 'https://enelnotificacionesproactjava.herokuapp.com/private/execute/getTaskInfo',
+                   data: req.body.Task,
+                   contentType: "application/json; charset=utf-8",
+                   dataType: "json",
+                   success: function (data) {
+                            debugger;
+                            console.log('>>> Llamada a aplicación de java correcta <<<');
+
+                   },
+                   error: function (msg, url, line) {
+                            console.log('error trapped in error: function(msg, url, line)');
+                            console.log('msg = ' + msg + ', url = ' + url + ', line = ' + line);
+
+                   }
+         });     
+         // Data from the req and put it in an array accessible to the main app.
     //console.log( req.body );
     //activityUtils.logData( req.body );
     res.send( 200, 'Publish' );
 };
+
 
 /**
  * POST Handler for /validate/ route of Activity.
