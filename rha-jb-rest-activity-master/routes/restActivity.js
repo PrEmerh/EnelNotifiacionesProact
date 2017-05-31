@@ -156,18 +156,11 @@ exports.execute = function( req, res ) {
     // Data from the req and put it in an array accessible to the main app.
     //console.log( req.body );
     //activityUtils.logData( req );
-	res.send( 200, {"result":"0"});
-};
-
-/**
- *  GET config.json. Instead of using a static field, we build the initial config.json file using the variables from Heroku.
- */
-exports.configJSON = function( req, res ) {
-	console.log('>>> get _config.json <<<');
+	
     var username = "enel";
     var password = "enel.-2017";
     var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
-    var request = require('request');   
+    //var request = require('request');   
     var taskExternalID = "";
     
     for (var i = 0; i < req.body.inArguments.length; i++) {
@@ -196,16 +189,50 @@ exports.configJSON = function( req, res ) {
     
     var urlString ="http://ws.econecta.cl/api/citas/envio?tipo_campania=91&iso_3166=CHL&id_externo="+taskExternalID+"&telefono="+telefono+"&mensaje="+req.body.inArguments.mensaje;
 
-    request.get( {
-        url : urlString,
-        headers : {
-            "Authorization" : auth
-        }
-      }, function(error, response, body) {
-          console.log('body : ', body);
-          console.log('error : ', error);
-      } );
-    	
+//    https.get( {
+//        url : urlString,
+//        headers : {
+//            "Authorization" : auth
+//        }
+//      }, function(error, response, body) {
+//          console.log('body : ', body);
+//          console.log('error : ', error);
+//      } );
+    
+//    var options = {
+//    		   host: 'test.example.com',
+//    		   port: 443,
+//    		   path: '/api/service/'+servicename,
+//    		   // authentication headers
+//    		   headers: {
+//    		      'Authorization': auth
+//    		   }   
+//    		};
+//    
+//	//this is the call
+//    request = https.get(options, function(res){
+//       var body = "";
+//       res.on('data', function(data) {
+//          body += data;
+//       });
+//       res.on('end', function() {
+//        //here we have the full response, html or json object
+//          console.log(body);
+//       })
+//       res.on('error', function(e) {
+//          onsole.log("Got error: " + e.message);
+//       });
+//	});
+	
+	res.send( 200, {"result":"0"});
+};
+
+/**
+ *  GET config.json. Instead of using a static field, we build the initial config.json file using the variables from Heroku.
+ */
+exports.configJSON = function( req, res ) {
+	console.log('>>> get _config.json <<<');
+	res.send( 200, configJSON);
 };
 
 
