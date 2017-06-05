@@ -2,6 +2,9 @@
 //var $ = require('jquery'); 
 
 var https = require( 'https' );
+var http = require( 'http' );
+var request = require('request');
+var querystring = require('querystring');
 var activityUtils = require('./activityUtils');
 var httpExecute = process.env.REST_EXECUTE && process.env.REST_EXECUTE.length > 0? process.env.REST_EXECUTE : "https://" + process.env.JB_ACTIVITY_KEY + ".herokuapp.com/rest-activity/execute";
 var httpSave = process.env.REST_SAVE && process.env.REST_SAVE.length > 0? process.env.REST_SAVE : "https://" + process.env.JB_ACTIVITY_KEY + ".herokuapp.com/rest-activity/save";
@@ -152,14 +155,17 @@ exports.validate = function( req, res ) {
  */
 exports.execute = function( req, res ) {
 	console.log('>>> EXECUTE <<<');
-	console.log(req.body);
+	//console.log(req.body);
     // Data from the req and put it in an array accessible to the main app.
     //console.log( req.body );
     //activityUtils.logData( req );
 	
-    var username = "enel";
-    var password = "enel.-2017";
-    var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
+//    var username = "enel";
+//    var password = "enel.-2017";
+//    var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
+    
+//    console.log("auth: "+auth);
+    
     //var request = require('request');   
     var taskExternalID = "";
     
@@ -168,15 +174,15 @@ exports.execute = function( req, res ) {
                        taskExternalID=req.body.inArguments[i].taskExternalID;
               }        
     }
-    console.log("taskExternalID: "+taskExternalID);
+    //console.log("taskExternalID: "+taskExternalID);
     
     var telefono = "";
     for (var i = 0; i < req.body.inArguments.length; i++) {
-              if(req.body.inArguments[i].phone!=undefined) {
-                       telefono=req.body.inArguments[i].phone;
+              if(req.body.inArguments[i].mobilephone!=undefined) {
+                       telefono=req.body.inArguments[i].mobilephone;
               }        
     }
-    console.log("telefono: "+telefono);
+    //console.log("telefono: "+telefono);
     
     var mensaje = "";
     for (var i = 0; i < req.body.inArguments.length; i++) {
@@ -184,46 +190,57 @@ exports.execute = function( req, res ) {
                        mensaje=req.body.inArguments[i].message;
               }        
     }
+    
     console.log("mensaje: "+mensaje);
+    //console.log("mensaje escapado: "+querystring.escape(mensaje));
+    //console.log("mensaje escapado 2: "+encodeURIComponent(mensaje));
     
+    var username = "";
+    for (var i = 0; i < req.body.inArguments.length; i++) {
+              if(req.body.inArguments[i].username!=undefined) {
+            	  username=req.body.inArguments[i].username;
+              }        
+    }
     
-    var urlString ="http://ws.econecta.cl/api/citas/envio?tipo_campania=91&iso_3166=CHL&id_externo="+taskExternalID+"&telefono="+telefono+"&mensaje="+req.body.inArguments.mensaje;
+    var password = "";
+    for (var i = 0; i < req.body.inArguments.length; i++) {
+              if(req.body.inArguments[i].password!=undefined) {
+            	  password=req.body.inArguments[i].password;
+              }        
+    }
 
-//    https.get( {
-//        url : urlString,
-//        headers : {
-//            "Authorization" : auth
-//        }
-//      }, function(error, response, body) {
-//          console.log('body : ', body);
-//          console.log('error : ', error);
-//      } );
     
-//    var options = {
-//    		   host: 'test.example.com',
-//    		   port: 443,
-//    		   path: '/api/service/'+servicename,
-//    		   // authentication headers
-//    		   headers: {
-//    		      'Authorization': auth
-//    		   }   
-//    		};
-//    
-//	//this is the call
-//    request = https.get(options, function(res){
-//       var body = "";
-//       res.on('data', function(data) {
-//          body += data;
-//       });
-//       res.on('end', function() {
-//        //here we have the full response, html or json object
-//          console.log(body);
-//       })
-//       res.on('error', function(e) {
-//          onsole.log("Got error: " + e.message);
-//       });
-//	});
+
+
+    
+    var urlREST = "http://ws.econecta.cl/api/citas/envio?tipo_campania=91&iso_3166=CHL&id_externo="+taskExternalID+"&telefono="+telefono+"&mensaje="+querystring.escape(mensaje);
+    
+    console.log("urlREST: "+urlREST);
+
+
 	
+    var respuesta = request.get(urlREST, {
+    	  'auth': {
+    	    'user': username,
+    	    'pass': password,
+    	    'sendImmediately': false
+    	  }
+    	});
+    
+	  var body = "";
+	  respuesta.on('data', function(data) {
+	     body += data;
+	  });
+	  respuesta.on('end', function() {
+	   //here we have the full response, html or json object
+		  console.log("Respuesta del servicio OK.");
+	     console.log(body);
+	  })
+	  respuesta.on('error', function(e) {
+		   console.log("Respuesta del servicio ERROR.");
+		   console.log("Got error: " + e.message);
+	  });    
+    
 	res.send( 200, {"result":"0"});
 };
 
